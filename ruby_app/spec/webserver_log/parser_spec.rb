@@ -53,9 +53,9 @@ RSpec.describe WebserverLog::Parser do
       let(:file_path) { 'spec/fixtures/webserver_malformed_path.log' }
 
       it 'returns records' do
-        expect do
-          subject.parse_log
-        end.to raise_error(Validators::WebserverLogValidator::FormatError)
+        subject.parse_log
+        # The path name in Line 4 and 6 are incorrect
+        expect(subject.errors.size).to eq(2)
       end
     end
   end

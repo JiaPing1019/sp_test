@@ -16,7 +16,7 @@ module Validators
     private
 
     def path_valid?(path)
-      %r{/\S+$}.match?(path)
+      %r{^/\S*$}.match?(path)
     end
 
     def ip_valid?(ip)

@@ -4,6 +4,7 @@ require './validators/webserver_log_validator'
 
 module WebserverLog
   class Parser
+    attr_accessor :errors
     attr_reader :file_path, :log_hash
 
     def initialize(file_path)
@@ -12,6 +13,7 @@ module WebserverLog
 
       @file_path = file_path
       @log_hash = {}
+      @errors = []
     end
 
     def parse_log
@@ -24,7 +26,13 @@ module WebserverLog
     def generate_log_hash
       File.open(file_path).each do |line|
         page, ip = line.split(' ')
-        Validators::WebserverLogValidator.new.validate(line)
+
+        begin
+          Validators::WebserverLogValidator.new.validate(line)
+        rescue Validators::WebserverLogValidator::FormatError => e
+          @errors << e.message
+        end
+
         update_log_hash(page, ip)
       end
     end
