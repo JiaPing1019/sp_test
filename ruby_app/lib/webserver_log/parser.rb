@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require './validators/webserver_log_validator'
+
 module WebserverLog
   class Parser
     attr_reader :file_path, :log_hash
@@ -22,6 +24,7 @@ module WebserverLog
     def generate_log_hash
       File.open(file_path).each do |line|
         page, ip = line.split(' ')
+        Validators::WebserverLogValidator.new.validate(line)
         update_log_hash(page, ip)
       end
     end

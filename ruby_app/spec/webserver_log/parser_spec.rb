@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
 require 'webserver_log/parser'
+require './validators/webserver_log_validator'
 
 RSpec.describe WebserverLog::Parser do
   describe '#initialize' do
@@ -13,7 +13,7 @@ RSpec.describe WebserverLog::Parser do
 
     context 'when the file not exists' do
       it 'raises an error' do
-        expect { described_class.new('spec/fixtures/wrong_webserver.log') }.to raise_error(ArgumentError,  'Please provide an existing file.')
+        expect { described_class.new('spec/fixtures/wrong_webserver.log') }.to raise_error(ArgumentError, 'Please provide an existing file.')
       end
     end
   end
@@ -46,6 +46,35 @@ RSpec.describe WebserverLog::Parser do
 
       it 'returns log hash' do
         expect(subject.parse_log).to eq(result)
+      end
+    end
+
+    context 'when log format is incorrect' do
+      let(:file_path) { 'spec/fixtures/webserver_malformed_path.log' }
+      let(:result) do
+        {
+          '/help_page/1' => {
+            '126.318.035.038' => 1,
+            '929.398.951.889' => 1,
+            '722.247.931.582' => 1
+          },
+          '/about/2' => {
+            '184.123.665.067' => 1,
+            '444.701.448.104' => 2
+          },
+          '/about' => {
+            '061.945.150.735' => 1
+          },
+          '/index' => {
+            '444.701.448.104' => 2
+          }
+        }
+      end
+
+      it 'returns records' do
+        expect do
+          subject.parse_log
+        end.to raise_error(Validators::WebserverLogValidator::FormatError)
       end
     end
   end
