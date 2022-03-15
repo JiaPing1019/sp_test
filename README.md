@@ -34,7 +34,21 @@ Take a look at spec/examples.txt
 ```
 
 ## Test coverage
-<img width="800" alt="Screen Shot 2022-03-15 at 23 17 06" src="https://user-images.githubusercontent.com/12680148/158487672-90eb4b7b-eaff-4c72-a03b-d94e92e7756b.png">
+After running `bundle exec rspec`, open coverage/index.html in the browser by executing the below command
+
+#### Mac
+```
+open coverage/index.html
+```
+
+#### debian/ubuntu Terminal
+```
+xdg-open coverage/index.html
+```
+
+You will see the result as the screenshot
+
+<img width="1392" alt="Screen Shot 2022-03-15 at 23 38 09" src="https://user-images.githubusercontent.com/12680148/158489578-21d3e4ff-f0c4-42b2-b603-05a469fa1a57.png">
 
 
 -----------
