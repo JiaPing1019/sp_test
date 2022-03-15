@@ -51,25 +51,6 @@ RSpec.describe WebserverLog::Parser do
 
     context 'when log format is incorrect' do
       let(:file_path) { 'spec/fixtures/webserver_malformed_path.log' }
-      let(:result) do
-        {
-          '/help_page/1' => {
-            '126.318.035.038' => 1,
-            '929.398.951.889' => 1,
-            '722.247.931.582' => 1
-          },
-          '/about/2' => {
-            '184.123.665.067' => 1,
-            '444.701.448.104' => 2
-          },
-          '/about' => {
-            '061.945.150.735' => 1
-          },
-          '/index' => {
-            '444.701.448.104' => 2
-          }
-        }
-      end
 
       it 'returns records' do
         expect do
